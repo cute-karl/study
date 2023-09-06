@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f45bfa0-de7b-4d5d-b8f4-620d3f4e3f75" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/CSS的编写/子代选择器.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CSS的编写/字体族.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/position3.css" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/position3.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/交集选择器CSS.css" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/交集选择器CSS.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/交集选择器HTML.html" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/交集选择器HTML.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/位置1_行内样式.html" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/位置1_行内样式.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/位置2_内部样式.html" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/位置2_内部样式.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/位置3_外部样式.html" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/位置3_外部样式.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/元素选择器.css" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/元素选择器.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/并集选择器.html" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/并集选择器.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/测试.html" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/测试.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01_CSS的编写位置/通配选择器.css" beforeDir="false" afterPath="$PROJECT_DIR$/CSS的编写/通配选择器.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,20 +30,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/学习/CSS/CSS练习代码/css",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/学习/CSS/CSS练习代码/css&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -65,6 +54,7 @@
       <updated>1693905763816</updated>
       <workItem from="1693905764923" duration="14000" />
       <workItem from="1693905793477" duration="5925000" />
+      <workItem from="1693989184228" duration="3177000" />
     </task>
     <servers />
   </component>
