@@ -1,5 +1,23 @@
 # 学习记录
 
+**2023-9-9**
+
+练习项目(未完成)：HTML+CSS
+
+JS：流程控制
+
+MySQL:
+
+​			-外键
+
+​			-增insert
+
+​			-删delete、truncate
+
+​			-查(未完)select
+
+​			-改update
+
 **2023-9-8**
 
 JS：基本语法、数据类型

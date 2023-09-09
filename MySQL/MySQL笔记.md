@@ -1,4 +1,4 @@
-# 初识
+# 1、初识
 
 > 什么是数据库
 
@@ -80,9 +80,9 @@ exit; 退出Mysql
 */
 ```
 
-# 数据库操作
+# 2、数据库操作
 
-## 结构化查询语句分类
+## 2.1 结构化查询语句分类
 
 | 名称                | 解释                                         | 命令                    |
 | ------------------- | -------------------------------------------- | ----------------------- |
@@ -91,7 +91,7 @@ exit; 退出Mysql
 | DQL（数据查询语言） | 用于查询数据库数据                           | SELECT                  |
 | DCL（数据控制语言） | 用于管理数据库的语言，包括管理权限及数据更改 | GRANT、commit、rollback |
 
-## 数据库操作
+## 2.2 数据库操作
 
 > 命令行操作数据库
 
@@ -112,7 +112,7 @@ exit; 退出Mysql
 - 对照SQLyog工具自动生成的语句学习
 - 固定语法中的单词需要记忆
 
-## 创建数据表
+## 2.3 创建数据表
 
 属于DDL的一种，语法 :
 
@@ -127,7 +127,7 @@ create table [if not exists] `表名`(
 
 **说明 :** 反引号用于区别MySQL保留字与普通字符而引入的 (键盘esc下面的键).
 
-## 数据值和列类型
+## 2.4 数据值和列类型
 
 列类型 : 规定数据库中该列存放的数据类型
 
@@ -170,7 +170,7 @@ create table [if not exists] `表名`(
 - 理解为 "没有值" 或 "未知值"
 - 不要用NULL进行算术运算 , 结果仍为NULL
 
-## 数据字段属性
+## 2.5 数据字段属性
 
 **UnSigned**
 
@@ -230,7 +230,7 @@ SHOW CREATE TABLE student;
 DESC student;  -- 设置严格检查模式(不能容错了)SET sql_mode='STRICT_TRANS_TABLES';
 ```
 
-## 数据表的类型
+## 2.6 数据表的类型
 
 > 设置数据表的类型
 
@@ -296,7 +296,7 @@ MySQL的数据表的类型 : **MyISAM** , **InnoDB** , HEAP , BOB , CSV等...
 - 创建时通过命令来设置 , 如 : CREATE TABLE 表名()CHARSET = utf8;
 - 如无设定 , 则根据MySQL数据库配置文件 my.ini 中的参数设定
 
-## 修改数据库
+## 2.7 修改数据库
 
 > 修改表 ( ALTER TABLE )
 
@@ -341,3 +341,235 @@ MySQL的数据表的类型 : **MyISAM** , **InnoDB** , HEAP , BOB , CSV等...
 
 7. 清除已有语句：\c
 ```
+
+# 3、MySQL数据管理
+
+## 3.1 外键(了解)
+
+> 方式一、在创建表的时候，增加约束（麻烦、复杂）
+
+```mysql
+CREATE TABLE `grade` (
+`gradeid` INT(10) NOT NULL AUTO_INCREMENT COMMENT '年级id',
+`gradename` VARCHAR(50) NOT NULL COMMENT '年级名称',
+PRIMARY KEY(`gradeid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+-- 学生的gradeid字段 要去引用年级表的gradeid
+-- 定义外键key
+-- 给这个外键添加约束（执行引用） references 引用
+CREATE TABLE IF NOT EXISTS `student`(
+`id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '学号',
+`name` VARCHAR(30) NOT NULL DEFAULT '匿名' COMMENT '名字',
+`pwd` VARCHAR(20) NOT NULL DEFAULT '123456' COMMENT '密码',
+`sex` VARCHAR(2) NOT NULL DEFAULT '男' COMMENT '性别',
+`birthday` DATETIME DEFAULT NULL COMMENT '生日',
+`gradeid` INT(10) NOT NULL COMMENT '学生的年级',
+`address` VARCHAR(100) DEFAULT NULL COMMENT '地址',
+`email` VARCHAR(50) DEFAULT NULL COMMENT '邮箱',
+PRIMARY KEY(`id`),
+KEY `FK_gradeid` (`gradeid`),
+CONSTRAINT `FK_gradeid` FOREIGN KEY (`gradeid`) REFERENCES `grade`(`gradeid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+```
+
+
+
+删除有外键关系的表的时候，必须要先删除引用别人的表（从表），再删除被引用的表（主表）
+
+
+
+> 方式二：创建表成功后，添加外键约束
+
+```mysql
+`gradename` VARCHAR(50) NOT NULL COMMENT '年级名称',
+PRIMARY KEY(`gradeid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+
+-- 学生的gradeid字段 要去引用年级表的gradeid
+-- 定义外键key
+-- 给这个外键添加约束（执行引用） references 引用
+CREATE TABLE IF NOT EXISTS `student`(
+`id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '学号',
+`name` VARCHAR(30) NOT NULL DEFAULT '匿名' COMMENT '名字',
+`pwd` VARCHAR(20) NOT NULL DEFAULT '123456' COMMENT '密码',
+`sex` VARCHAR(2) NOT NULL DEFAULT '男' COMMENT '性别',
+`birthday` DATETIME DEFAULT NULL COMMENT '生日',
+`gradeid` INT(10) NOT NULL COMMENT '学生的年级',
+`address` VARCHAR(100) DEFAULT NULL COMMENT '地址',
+`email` VARCHAR(50) DEFAULT NULL COMMENT '邮箱',
+PRIMARY KEY(`id`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `student`
+ADD CONSTRAINT `FK_gradeid` FOREIGN KEY(`gradeid`) REFERENCES `grade`(`gradeid`);
+
+-- ALTER TABLE 表 ADD CONSTRAINT 约束名 FOREIGN KEY(作为外键的列) REFERENCES 那个表(哪个字段)
+```
+
+以上的操作都是物理外键，数据库级别的外键，我们不建议使用！（避免数据库过多造成困扰，这里了解即可）
+
+
+
+==最佳实践==
+
++ 数据库就是单纯的表，只用来存数据，只有行（数据）和列（字段）
++ 我们想使用多张表的数据，想使用外键（程序去实现）
+
+## 3.2 DML语言(全部记住)
+
+**数据库意义：**数据存储，数据管理
+
+DML语言：数据操作语言
+
++ Insert
++ update
++ delete
+
+## 3.3 添加
+
+> insert
+
+
+
+```mysql
+-- 插入语句（添加）--
+-- insert into 表名([字段名1，字段名2，字段名3])values('值1,值2...'),('值1,值2...'),('值1,值2....'),...)
+INSERT INTO `grade`(`gradename`)VALUES('大四')
+
+-- 由于主键自增我们可以省略（如果不写表的字段，他就会一一匹配）
+INSERT INTO `grade`VALUES('大三')
+
+-- 一般写插入语句，我们一定要数据和字段一一兑现!
+
+-- 插入多个字段
+INSERT INTO `grade`(`gradename`) VALUES('大二'),('大一')
+
+
+INSERT INTO `student`(`name`) VALUES ('张三')
+
+INSERT INTO `student`(`name`,`pwd`,`sex`) VALUES ('张三','aaaaaa','男')
+
+INSERT INTO `student`(`name`,`pwd`,`sex`) 
+VALUES ('李四','aaaaaa','男'),('王五','aaaaaa','男')
+```
+
+语法：`-- insert into 表名([字段名1，字段名2，字段名3])values('值1,值2...'),('值1,值2...'),...)`
+
+注意事项：
+
+​	1.字段和字段之间用英文逗号隔开
+
+​	2.字段是可以省略的，但是后面的值必须要一一对应，不能少
+
+​	3.可以同时插入多条数据，VALUES后面的值，需要使用逗号隔开即可`VALUES(),(),...`
+
+## 3.4 修改
+
+> update 修改谁（条件） set 原来的值=新值
+
+```mysql
+-- 修改学员的名字，带了简介
+UPDATE `student` SET `name`='狂神' WHERE id <= 2;
+
+-- 不指定条件的情况下，会改动所有表！
+UPDATE `student` SET `name`='长江7号'
+
+-- 修改多个属性，逗号隔开
+UPDATE `student` SET `name`='浩二',`email`='114514@qq.com' WHERE id=1;
+
+-- 通过多个条件定位数据
+UPDATE `student` SET `name`='虎哥' WHERE `name`='老八' AND sex='女'
+```
+
+条件：where子句 运算符 id等于某个值，大于某个值，在某个区间内修改…
+
+操作符会返回布尔值
+
+|   操作符    | 意义         | 范围        | 结果  |
+| :---------: | ------------ | ----------- | ----- |
+|      =      | 等于         | 5=6         | false |
+|   <>或!=    | 不等于       | 5<>6        | true  |
+|      >      |              |             |       |
+|      <      |              |             |       |
+|     >=      |              |             |       |
+|     <=      |              |             |       |
+| between…and | 在某个范围内 |             |       |
+|     AND     | 我和你 &&    | 5>1 and 1>2 | false |
+|     OR      | 我或你 \|\|  | 5>1 or 1>2  | true  |
+
+语法：`update 表名 set colnum_name = value,[colnum_name = value] where [条件]`
+
+注意：
+
++ colnum_name 是数据库的列，尽量带上``
++ 条件，筛选的条件，如果没有指定，则会修改所有的列
++ value，是一个具体的值，也可以是一个变量
+	+ `UPDATE `student` SET `birthday`=CURRENT_TIME WHERE `name`='虎哥' AND sex='女'`
+
+## 3.5 删除
+
+> delete
+
+语法：`delete from 表名 [where 条件]`
+
+```mysql
+-- 删除数据
+DELETE FROM `student` WHERE id = 1;
+
+-- 全部删除
+DELETE FROM `student`;
+```
+
+> truncate
+
+作用：完全清空一个数据库表，表的结构和索引约束不会变
+
+```mysql
+-- 清空 student 表
+TRUNCATE `student`
+```
+
+>truncate和dalete的区别
+
++ 相同点：都能删除数据，都不会删除表结构
++ 不同点：
+	+ truncate 重新设置 自增列 计数器会归零
+	+ truncate 不会影响事务
+
+了解即可：delete删除的问题，重启数据库，现象
+
++ innoDB 自增列会从1开始(存在内存中的，断电即失)
++ MyISAM 继续从上一个自增量开始(存在文件中的，不会丢失)
+
+# 4、DQL查询数据(最重点)
+
+## 4.1 DQL
+
+(Data Query LANGUAGE:数据查询语言)
+
++ 所有的查询操作都用它 Select
++ 简单的查询，复杂的查询它都能做
++ ==数据库中最核心的语言，最重要的语句==
++ 使用频率最高的语句
+
+## 4.2 指定查询字段
+
+```sql
+-- 查询全部的学生	select 字符按 from 表
+SELECT * FROM student
+
+-- 查询指定字段
+SELECT `StudentNo`,`StudentName` FROM student
+
+-- 别名，给结果起一个名字   AS	可以给字段起别名，也可以给表名起别名
+SELECT `StudentNo` AS 学号,`StudentName` AS 学生姓名 FROM student AS s
+
+-- 函数 concat(a,b) 拼接
+SELECT CONCAT('姓名：',StudentName) AS 新名字 FROM student
+```
+
+语法：`SELECT 字段1,... FROM 表`
+
+>有的时候，列名字不是那么见名知意。我们起别名 AS：字段名 AS 别名 表名 AS 别名

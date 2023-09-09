@@ -212,25 +212,232 @@
     border: 1px solid #D9D9D9;
 
 }
+
 .slide-other .message .title {
     height: 39px;
     line-height: 39px;
     border-bottom: 1px solid #D9D9D9;
 }
+
 .slide-other .message .title span {
     font-size: 14px;
 }
+
 .slide-other .message .title {
     font-size: 12px;
 }
+
 .slide-other .msg-list li {
     height: 26px;
     line-height: 26px;
 }
+
+
 .slide-other .other-nav {
     margin-top: 10px;
     width: 290px;
     height: 290px;
-    background-color: gray;
+    overflow: hidden;
 }
+
+.other-nav-list:first-child {
+    margin-top: 16px;
+}
+
+.other-nav-list:nth-child(2) {
+    margin: 17px 0;
+}
+
+.other-nav-list li {
+    width: 48px;
+    height: 70px;
+    float: left;
+    margin: 0 11px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.other-nav-list li:first-child {
+    margin-left: 16px;
+}
+
+.other-nav-list li:last-child {
+    margin-right: 16px;
+}
+
+.other-nav-list .picture {
+    width: 48px;
+    height: 48px;
+    background-image: url("/images/精灵图-侧边功能.png");
+    background-position: -48px 0;
+}
+
+.other-nav-list:nth-child(1) li:nth-child(1) .picture {
+    background-position: 0 0;
+}
+
+.other-nav-list:nth-child(1) li:nth-child(2) .picture {
+    background-position: -48px 0;
+}
+
+.other-nav-list:nth-child(1) li:nth-child(3) .picture {
+    background-position: -96px 0;
+}
+
+.other-nav-list:nth-child(1) li:nth-child(4) .picture {
+    background-position: -144px 0;
+}
+
+.other-nav-list:nth-child(2) li:nth-child(1) .picture {
+    background-position: 0 -48px;
+}
+
+.other-nav-list:nth-child(2) li:nth-child(2) .picture {
+    background-position: -48px -48px;
+}
+
+.other-nav-list:nth-child(2) li:nth-child(3) .picture {
+    background-position: -96px -48px;
+}
+
+.other-nav-list:nth-child(2) li:nth-child(4) .picture {
+    background-position: -144px -48px;
+}
+
+.other-nav-list:nth-child(3) li:nth-child(1) .picture {
+    background-position: 0 -96px;
+}
+
+.other-nav-list:nth-child(3) li:nth-child(2) .picture {
+    background-position: -48px -96px;
+}
+
+.other-nav-list:nth-child(3) li:nth-child(3) .picture {
+    background-position: -96px -96px;
+}
+
+.other-nav-list:nth-child(3) li:nth-child(4) .picture {
+    background-position: -144px -96px;
+}
+
 /* endregion主要内容区end */
+
+/*region秒杀start*/
+
+.seckill img {
+    float: left;
+    margin-right: 11px;
+    cursor: pointer;
+}
+
+.seckill img:last-child {
+    margin-right: 0;
+}
+
+/*endregion秒杀end*/
+
+/*region楼层start*/
+
+.floor {
+    margin-top: 48px;
+}
+
+.floor-name {
+    font-size: 20px;
+}
+
+.floor-nav {
+    height: 30px;
+    line-height: 30px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #DD302D;
+}
+
+.floor-nav-list li {
+    float: left;
+    font-size: 14px;
+
+}
+
+.floor-nav-list li a {
+    padding: 0 10px;
+    border-right: 1px solid #666666;
+}
+
+.floor-nav-list li:first-child a {
+    padding-left: 0;
+}
+
+.floor-nav-list li:last-child a {
+    padding-right: 0;
+    border: 0;
+}
+
+.floor-info .item {
+    float: left;
+}
+
+.floor-info .item1 {
+    width: 190px;
+    height: 302px;
+    background-color: #F4F4F4;
+    padding: 20px;
+}
+
+.item1-list {
+    margin-bottom: 29px;
+}
+
+.item1-list li {
+    width: 90px;
+    height: 22px;
+    padding-bottom: 3.5px;
+    border-bottom: 1px solid #D9D9D9;
+    font-size: 16px;
+    text-align: center;
+}
+
+.item1-list li:nth-child(2n-1) {
+    float: left;
+}
+
+.item1-list li:nth-child(2n) {
+    float: right;
+}
+
+.item1-list li:nth-child(3),
+.item1-list li:nth-child(4) {
+    margin: 14.4px 0;
+}
+
+.floor-info .item2 {
+    width: 340px;
+    height: 432px;
+
+}
+
+.floor-info .item3 {
+    width: 206px;
+    height: 432px;
+    background-color: orange;
+    border-right: 1px solid #E2E2E2;
+}
+
+.floor-info .item3 img,
+.floor-info .item4 img,
+.floor-info .item5 img {
+    border-bottom: 1px solid #E2E2E2;
+}
+
+.floor-info .item4 {
+    width: 206px;
+    height: 432px;
+    border-right: 1px solid #E2E2E2;
+}
+
+.floor-info .item5 {
+    width: 206px;
+    height: 432px;
+}
+
+/*endregion楼层end*/
