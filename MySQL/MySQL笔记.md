@@ -554,6 +554,29 @@ TRUNCATE `student`
 + ==数据库中最核心的语言，最重要的语句==
 + 使用频率最高的语句
 
+
+
+Select完整的语法：
+
+```sql
+SELECT [ALL | DISTINCT]
+{* | table.* | [table.field1[as alias1][,table.field2[as alias2]][,...]]}
+FROM table_name [as table_alias]
+	[left | right | inner join table_name2] -- 联合查询
+	[WHERE ...] -- 指定结果需满足的条件
+	[GROUP BY ...] -- 指定结果按照哪几个字段来分组
+	[HAVING] -- 过滤分组的记录必须满足的次要条件
+	[ORDER BY ...] -- 指定查询记录按一个或多个条件排序
+	[LIMIT {[offset,]row_count | row_countOFFSET offset}];
+	-- 指定查询的记录从哪条至哪条
+```
+
+**[]表示可选，{}表示必选**
+
+
+
+
+
 ## 4.2 指定查询字段
 
 ```sql
@@ -573,3 +596,366 @@ SELECT CONCAT('姓名：',StudentName) AS 新名字 FROM student
 语法：`SELECT 字段1,... FROM 表`
 
 >有的时候，列名字不是那么见名知意。我们起别名 AS：字段名 AS 别名 表名 AS 别名
+
+
+
+
+
+> 去重
+
+作用：去除select查询出来的结果中重复的数据，重复的数据只显示一条
+
+```sql
+-- 查询一下有哪些同学参加了考试，成绩
+SELECT * FROM result -- 查询全部的考试成绩
+SELECT `studentNo` FROM result -- 查询有哪些同学参加了考试
+SELECT DISTINCT `studentNo` FROM result -- 发现重复数据，去重
+```
+
+
+
+> 数据库的列（表达式）
+
+```sql
+SELECT VERSION() -- 查询系统版本(函数)
+SELECT 100*3-1 AS 计算结果 -- 用来计算(计算表达式)
+SELECT @@auto_increment_increment -- 查询自增的步长(变量)
+
+-- 学员考试成绩+1分
+SELECT `StudentNo`, `StudentResult`+1 AS '提分' FROM result
+```
+
+==数据库中的表达式：文本值，列，Null，函数，计算表达式，系统变量…==
+
+select `表达式` from 表
+
+
+
+## 4.3 where 条件子句
+
+作用：检索数据中`符合条件`的值
+
+搜索的条件右一个或者多个表达式组成，结果是布尔值
+
+> 逻辑运算符
+
+| 运算符      | 语法                 | 描述                         |
+| ----------- | -------------------- | ---------------------------- |
+| and  &&     | a and b  a && b      | 逻辑与，两个都为真，结果为真 |
+| or     \|\| | a or b     a  \|\| b | 逻辑或，一个为真，结果为真   |
+| Not   !     | not a       !a       | 逻辑非，真为假，假为真！     |
+
+==尽量使用英文字母==
+
+```sql
+-- ======================== where ======================
+SELECT `StudentNo`,`StudentResult` FROM result
+
+-- 查询考试成绩在 95~100分之间
+SELECT studentNo,StudentResult FROM result
+WHERE studentresult>=95 AND studentResult<=100
+
+-- and &&
+SELECT studentNo,StudentResult FROM result
+WHERE studentresult>=95 && studentResult<=100
+
+-- 模糊查询(区间)
+SELECT studentNo,StudentResult FROM result
+WHERE studentresult BETWEEN 95 AND 100
+
+
+-- 除了1000号学生之外的同学的成绩
+SELECT studentNo,StudentResult FROM result
+WHERE studentno!=1000
+
+-- !=   not
+SELECT studentNo,StudentResult FROM result
+WHERE NOT  studentno = 1000
+```
+
+
+
+> 模糊查询：比较运算符
+
+| 运算符      | 语法              | 描述                                        |
+| ----------- | ----------------- | ------------------------------------------- |
+| IS NULL     | a is null         | 如果操作符为NULL，则结果为真                |
+| IS NOT NULL | a is not null     | 如果操作符不为NULL，则结果为真              |
+| BETWEEN     | a between b and c | 若a在b和c之间，则结果为真                   |
+| **Like**    | a like b          | SQL匹配，如果a匹配b，则结果为真             |
+| **In**      | a in (a1,a2,a3…)  | 假设a在a1,或者a2…其中的某一个值中，结果为真 |
+
+```sql
+-- =======================模糊查询======================
+-- 查询姓刘的同学
+-- like结合 %(代表0到任意个字符)   _(代表一个字符)
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE `StudentName` LIKE '刘%'
+
+-- 查询姓刘的同学，名字后只有一个字的
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE StudentName LIKE '老_'
+
+-- 查询姓刘的同学，名字后只有两个字的
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE StudentName LIKE '刘__'
+
+-- 查询名字中间有嘉字的同学  %嘉%
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE StudentName LIKE '%嘉%'
+
+-- ====== in(具体的一个值或多个值) ======
+-- 查询 1001,1002,1003号学员
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE `StudentNo` IN (1001,1002,1003)
+
+-- 查询在某地的学生
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE `Address` IN ('北京','河南洛阳')
+
+-- ==== null  not null ====
+
+-- 查询地址为空的学生 null ''
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE address='' OR address IS NULL
+
+-- 查询有出生日期的同学    不为空
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE `BornDate` IS NOT NULL
+
+-- 查询没有出生日期的同学    为空
+SELECT `StudentNo`,`StudentName` FROM `student`
+WHERE `BornDate` IS NULL
+```
+
+
+
+## 4.4 联表查询
+
+> JOIN 对比
+
+![image-20230910110221445](https://raw.githubusercontent.com/cute-karl/studyimage/main/image-20230910110221445.png)
+
+![](https://raw.githubusercontent.com/cute-karl/studyimage/main/JniYZv.png)
+
+| 操作       | 描述                                         |
+| ---------- | -------------------------------------------- |
+| Inner join | 如果表中至少有一个匹配，就返回匹配的值       |
+| left join  | 即使右表中没有匹配，也会从左表中返回所有的值 |
+| right jion | 即使左表中没有匹配，也会从右表中返回所有的值 |
+
+```sql
+-- ==================联表查询 join ====================
+
+-- 查询参加了考试的同学(学号，姓名，科目编号，分数)
+SELECT * FROM `student`
+SELECT * FROM `result`
+
+
+/* 思路
+1. 分析需求，分析查询的字段来自哪些表，(连接查询)
+2. 确定使用哪种连接查询？ 7钟
+确定交叉点（这两个表中哪个数据是相同的）
+判断的条件：学生表的中 StudentNo = 成绩表 StudentNo
+*/
+
+-- join(连接的表) on(判断的条件)	连接查询
+-- where	等值查询
+
+SELECT s.StudentNo,StudentName,SubjectNo,StudentResult
+FROM student AS s
+INNER JOIN result AS r
+WHERE s.StudentNo = r.StudentNo
+
+-- Right Join
+SELECT s.StudentNo,StudentName,SubjectNo,StudentResult
+FROM student s
+RIGHT JOIN result r
+ON s.StudentNo = r.StudentNo
+
+
+-- Left Join
+SELECT s.StudentNo,StudentName,SubjectNo,StudentResult
+FROM student s
+LEFT JOIN result r
+ON s.StudentNo = r.StudentNo
+
+
+-- 查询缺考的同学
+SELECT s.StudentNo,StudentName,SubjectNo,StudentResult
+FROM student s
+LEFT JOIN result r
+ON s.StudentNo = r.StudentNo
+WHERE StudentResult IS NULL
+
+-- 思考题(查询了参加考试的同学信息：学号，学生姓名，科目名，分数)
+/* 思路
+1. 分析需求，分析查询的字段来自哪些表，student、result、subject(连接查询)
+2. 确定使用哪种连接查询？ 7钟
+确定交叉点（这两个表中哪个数据是相同的）
+判断的条件：学生表的中 StudentNo = 成绩表 StudentNo
+*/
+SELECT s.StudentNo,StudentName,SubjectName,StudentResult
+FROM student s
+RIGHT JOIN result r
+ON r.StudentNo = s.StudentNo
+INNER JOIN `subject` sub
+ON r.SubjectNo = sub.SubjectNo
+
+-- 我要查询哪些数据 select ...
+-- 从哪几个表中查 FROM 表 XXX Join 连接的表 On 交叉条件
+-- 假设存在一种多张表查询，慢慢来，先查询两张表然后再慢慢增加
+
+-- From a left join b
+-- From a right join b
+```
+
+
+
+> 自连接(了解)
+
+自己的表和自己的表连接，核心：==一张表拆为两张一样的表即可==
+
+父类
+
+| categoryid | cateoryName |
+| ---------- | ----------- |
+| 2          | 信息技术    |
+| 3          | 软件开发    |
+| 5          | 美术设计    |
+
+子类
+
+| pid  | categoryid | categoryName |
+| ---- | ---------- | ------------ |
+| 3    | 4          | 数据库       |
+| 2    | 8          | 办公信息     |
+| 3    | 6          | web开发      |
+| 5    | 7          | ps技术       |
+
+操作：查询父类对应的子类关系
+
+| 父类     | 子类     |
+| -------- | -------- |
+| 信息技术 | 办公信息 |
+| 软件开发 | 数据库   |
+| 软件开发 | web开发  |
+| 美术设计 | ps技术   |
+
+```sql
+-- 查询父子信息：把一张表看为两张一模一样的表
+SELECT a.`categoryName` AS '父栏目',b.`categoryName` AS '子栏目'
+FROM `category` AS a,`category` AS b
+WHERE a.`categoryid` = b.`pid`
+```
+
+## 4.5 分页和排序
+
+> 排序
+
+```sql
+-- 排序：升序 ASC，降序 DESC
+-- ORDER BY 通过哪个字段排序，怎么排
+-- 查询的结果根据 成绩降序 排序
+SELECT s.`StudentNo`,`StudentName`,`SubjectName`,`Studentresult`
+FROM student s
+INNER JOIN `result` r
+ON s.studentno = r.studentno
+INNER JOIN `subject` sub
+ON r.`subjectno` = sub.`subjectno`
+WHERE subjectname = '数据库结构-1'
+ORDER BY StudentResult ASC
+```
+
+> 分页
+
+```sql
+-- 为什么要分页？
+-- 缓解数据库压力，给人的体验更好，瀑布流
+
+-- 分页，每页只显示五条数据
+-- 语法：limit 起始页(0开始)，步长
+-- 网页应用：当前页，总的页数，页面的大小
+-- LIMIT 0,5	1~5
+-- LIMIT 1,5	2~6
+SELECT s.`StudentNo`,`StudentName`,`SubjectName`,`Studentresult`
+FROM student s
+INNER JOIN `result` r
+ON s.studentno = r.studentno
+INNER JOIN `subject` sub
+ON r.`subjectno` = sub.`subjectno`
+WHERE subjectname = '数据库结构-1'
+ORDER BY StudentResult ASC
+LIMIT 0,5
+
+-- 第一页   limit 0,5
+-- 第二页   limit 5,5
+-- 第三页   limit 10,5
+-- 第N页    limit pageSize*(n-1),pageSize
+-- 【pageSize：页面大小】
+-- 【pageSize*(n-1)：起始值】
+-- 【n：当前页】
+-- 【数据总数/页面大小 = 总页数】
+```
+
+语法：`limit(起始下标,页面大小)`
+
+
+
+## 4.6 子查询
+
+where(这个值是计算出来的)
+
+本质：`在where语句中嵌套一个子查询语句`
+
+where (select * from)
+
+```sql
+-- ===================where===================
+
+-- 1、查询数据库结构-1 的所有考试结果（学号，科目编号，成绩），降序排列
+-- 方式一：使用连接查询
+SELECT `StudentNo`,r.`SubjectNo`,`StudentResult`
+FROM `result` r
+INNER JOIN `subject` sub
+ON r.`subjectno` = sub.`subjectno`
+WHERE SubjectName = '数据库结构-1'
+ORDER BY StudentResult DESC
+
+-- 方式二：使用子查询(由里及外)
+-- 查询所有数据库结构-1的学生学号
+SELECT `StudentNo`,`SubjectNo`,`StudentResult`
+FROM `result`
+WHERE `SubjectNo` = (
+	SELECT SubjectNo FROM `subject` 
+	WHERE  SubjectName = '数据库结构-1'
+)
+ORDER BY StudentResult DESC
+
+
+-- 分数不小于80分的学生的学号和姓名
+SELECT DISTINCT s.`StudentNo`,`StudentName`
+FROM `student` s
+INNER JOIN `result` r
+ON r.`StudentNo` = s.`StudentNo`
+WHERE `StudentResult` >= 80
+
+
+-- 在这个基础上增加一个科目，高等数学-2		查询编号
+SELECT DISTINCT s.`StudentNo`,`StudentName`
+FROM `student` s
+INNER JOIN `result` r
+ON r.`StudentNo` = s.`StudentNo`
+WHERE `StudentResult` >= 80 AND `SubjectNo` = (
+	SELECT `SubjectNo` FROM `subject` 
+	WHERE `subjectname` = '高等数学-2'
+)
+
+-- 再改造
+SELECT StudentNo,StudentName FROM student WHERE studentNo IN (
+	SELECT StudentNo FROM result WHERE studentresult>80 AND subjectno = (
+		SELECT SubjectNo FROM `subject` WHERE `SubjectName` = '高等数学-2'
+	)
+)
+```
+

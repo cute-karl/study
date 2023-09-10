@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script>
-        var arr = [100, 2, 3, 4, 5, 6, 7];
 
-        for(var num in arr) {
-            console.log(num);
-        }
-
-    </script>
 </head>
 <body>
+<p id="js">JavaScript</p>
+<div id="list">
+    <p id="se">JavaSE</p>
+    <p id="ee">JavaEE</p>
+    <p id="me">JavaME</p>
+</div>
+
+<script>
+    var js = document.getElementById('js');
+    var list = document.getElementById('list');
+    //通过JS 创建一个新的节点
+    var newP= document.createElement('p');//创建一个p标签
+    newP.id = 'newP';
+    newP.innerText = 'Hello,Kuangshen';
+
+    list.appendChild(newP);
+</script>
 
 </body>
 </html>
