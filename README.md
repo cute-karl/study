@@ -1,5 +1,11 @@
 # 学习记录
 
+**2023-9-11**
+
+JS：操作表单、jQuery
+
+JavaWeb：了解JavaWeb、了解Web服务器、了解Tomcat
+
 **2023-9-10**
 
 练习项目(完成)：HTML+CSS
