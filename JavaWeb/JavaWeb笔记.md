@@ -1,162 +1,175 @@
-# JavaWeb
+# JSP环境搭建及入门
 
-## 1.基本概念
+**1.JSP：动态网页**
 
-### 1.1 前言
+静态、动态：
 
-web开发：
+​	是否随着时间、地点、用户操作的改变而改变
 
-+ web，网页的意思
-+ 静态web
-	+ html,css
-	+ 提供给所有人看的数据始终不会发生变化！
-+ 动态web
-	+ 淘宝，几乎是所有的网站
-	+ 提供给所有人看的数据会发生变化，每个人在不同时间，不同的地点看到的信息各不相同！
-	+ 技术栈：Servlet/JSP，ASP，PHP
+**动态网页** 需要使用 服务端脚本语言（JSP）
 
-在java中，动态web资源开发的技术统称为JavaWeb
 
-### 1.2 web应用程序
 
-web应用程序：可以提供浏览器访问的程序
+**2.架构**
 
-+ a.html、b.html……多个web资源，这些web资源可以被外界访问，对外界提供服务
-+ 能访问到的任何一个页面或者资源，都存在于这个世界的某一个角落的计算机上
-+ URL：
-+ 这些统一的web资源会被放在同一个文件夹下，web应用程序–>Tomcat：服务器
-+ 一个web应用由多部分组成（静态web，动态web）
-	+ html,css,js
-	+ jsp,servlet
-	+ java程序
-	+ jar包
-	+ 配置文件（Properties）
+CS：Client Server
 
-web应用程序编写完毕后，若想提供给外界访问：需要一个服务器来统一管理
+CS不足：
 
-### 1.3 静态web
+a.如果软件升级，那么全部软件都需要升级
 
-+ *.htm, *.html这些都是网页的后缀，如果服务器上一直存在这些东西，我们就可以直接进行读取
+b.维护麻烦：需要维护每一台客户端软件
 
-![image-20230911190340447](https://raw.githubusercontent.com/cute-karl/studyimage/main/image-20230911190340447.png)
+c.每一台客户端都需要安装客户端软件
 
-+ 静态web存在的缺点
-	+ Web页面无法动态更新，所有用户看到都是同一个页面
-		+ 轮播图，点击特效：伪动态
-		+ JavaScript [实际开发中，它用的最多]
-		+ VBScript
-	+ 它无法与数据库交互（数据无法持久化，用户无法交互）
 
-### 1.4 动态web
 
-页面会动态展示：“Web的页面展示的效果因人而异”
+BS：Broswer Server
 
-![image-20230911191205196](https://raw.githubusercontent.com/cute-karl/studyimage/main/image-20230911191205196.png)
+客户端可以通过浏览器直接访问服务端
 
-缺点：
 
-+ 加入服务器的动态web资源出现了错误，我们需要重新编写我们的后台程序，重新发布
-	+ 停机维护
 
-优点
+注意：bs和cs各有优势
 
-+ Web页面可以动态更新，所有用户看到的都不是同一个页面
-+ 它可以与数据库交互（数据持久化：注册，商品信息，用户信息……）
 
-![image-20230911191755190](https://raw.githubusercontent.com/cute-karl/studyimage/main/image-20230911191755190.png)
 
-# 2.web服务器
+**3.tomcat解压后目录**
 
-## 2.1 技术
+bin：可执行文件（startup.bat		shutdown.bat）
 
-**ASP：**
+conf：配置文件（server.xml）
 
-+ 微软：国内最早流行的就是ASP
+lib：tomcat依赖的jar文件
 
-+ 在HTML中嵌入了VB的脚本，ASP + COM
+log：日志文件（记录出错等信息）
 
-+ 在APSP开发中，基本一个页面都有几千行的业务代码，页面极其混乱
+temo：临时文件
 
-+ 维护成本高
+webapps：可执行的项目（将我们开发的项目放入该目录）
 
-+ C#
+work：存放由jsp翻译成的java，以及编译成的class文件（jsp -> java -> class）
 
-	```html
-	<h1>
-	    <h1>
-	        <%
-	           System.out.println("/hello");
-	           %>
-	        	<h1>
-	        		<h1>
-	```
 
-	
 
-**php：**
+**4.配置tomcat**
 
-+ PHP开发速度很快，功能很强大，跨平台，代码很简单（70%,WP）
-+ 无法承载大访问量的情况（局限性）
+双击startup.bat
 
+常见错误：可能与其他服务的端口号冲突
 
+tomcat端口号默认8080建议改为8888
 
-**JSP/Servlet：**
+**5.访问tomcat**
 
-B/S：浏览器和服务器
+http://localhost:8080/
 
-C/S：客户端和服务器
 
-+ sun公司主推的B/S架构
-+ 基于java语言的（所有的大公司，或者一些开源的组件，都是用java写的）
-+ 可以承载三高问题带来的影响
-+ 语法像ASP，ASP—>JSP，加强市场强度
 
-## 2.2 web服务器
+常见状态码：
 
-服务器是一种被动的操作，用来处理用户的一些请求和给用户一些响应信息
+200：一切正常
 
+300/301：页面重定向（跳转）
 
+403：权限不足（如果访问a目录，但是a目录设置不可见）
 
- **IIS**
+404：资源不存在
 
-微软的：ASP…,Windows中自带的
+500：服务器内部错误（代码有误）
 
-**Tomcat**
+其他编码：积累
 
-面向百度编程：
 
-Tomcat是Apache软件基金会（Apache Software Foundation）的Jakarta项目中的一个核心项目，最新的Servlet 和JSP规范总是能在Tomcat 中得到体现，因为Tomcat 技术先进、性能稳定，而且免费，因而深受Java 爱好者的喜爱并得到了部分软件开发商的认可，成为比较流行的Web 应用服务器。
 
-Tomcat 服务器是一个免费的开放源代码的Web应用服务器，属于轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。对于一个初学者来说，它是最佳选择
 
-Tomcat 实际上运行JSP 页面和Servlet。Tomcat最新版本为10.0.23**。**
 
-……
+jsp：在html中嵌套的java代码
 
-**工作3-5年之后，可以尝试手写Tomcat服务器**
+读取顺序
 
-下载tomcat：
+```xml
+<welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
+```
 
-+ 安装 or 解压
-+ 了解配置及目录结构
-+ 这个东西的作用
+# 虚拟路径和虚拟主机
 
+**6.虚拟路径**
 
+a.方式一
 
-# 3.Tomcat
+将web项目配置到webapps以外的目录
 
-## 3.1 安装tomcat
+conf/server.xml中配置
 
-## 3.2 Tomcat启动和配置
+host标签中
 
-文件夹作用
+<Context docBase="" path="" />
 
-bin		启动，关闭的脚本文件
+docBase：实际路径
 
-conf		配置
+path：虚拟路径（绝对路径、相对路径【相对于webapps】）
 
-lib		依赖的jar包
+重启
 
-logs		日志
+b.方式二
 
-webapps		发存放的网站
+D:\apache-tomcat-9.0.80\conf\Catalina\localhost
+
+中新建	“项目名.xml”中新增一行：（如果写ROOT.xml就会直接找ROOT，因为这是默认的）
+
+<Context docBase="" path="" />
+
+**7.虚拟主机**
+
+![image-20230912234319179](https://raw.githubusercontent.com/cute-karl/studyimage/main/image-20230912234319179.png)
+
+先找本地，本地没有，再找远程的。通过www.test.com访问本机
+
+a.	conf/server.xml
+
+```xml
+<Engine name="Catalina" defaultHost="www.test.com">
+```
+
+```xml
+<Host appBase="D:\study\JavaWeb\JspProject" name="www.test.com">
+      <Context docBase="D:\study\JavaWeb\JspProject" path="/"/>
+</Host>
+```
+
+b.C:\Windows\System32\drivers\etc\hosts
+
+增加
+
+```
+127.0.0.1       www.test.com
+```
+
+
+
+流程：
+
+www.test.com -> host找映射关系 -> server.xml找Engine的defaultHost -> 通过“/”映射到D:\study\JavaWeb\JspProject
+
+将以上恢复成默认
+
+
+
+# JSP执行流程
+
+7.JSP执行流程
+
+jsp->java(Server文件)>class
+
+D:\apache-tomcat-9.0.80\work\Catalina\localhost\ROOT\org\apache\jsp
+
+![image-20230912233413770](https://raw.githubusercontent.com/cute-karl/studyimage/main/image-20230912233413770.png)
+
+Jsp 和 Servlet 可以相互转换
+
+
+
+因为第一次请求服务端 会有翻译和编译的过程，因此比较慢，后续访问，可以直接访问class。因此速度较快。但是如果服务端修改了代码，则再次访问时，会重新的翻译、编译
